@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -8,7 +8,8 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${process.env.DRAWING_APP_BACKEND_URL}/login`, { email, password });
+      const response = await api.post('/api/auth/login', { email, password });
+      localStorage.setItem('token', response.data.token);
       alert('Login successful');
     } catch (error) {
       alert('Login failed');
